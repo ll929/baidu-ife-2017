@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动态数据绑定（二）</title>
+</head>
+<body>
+<script>
+    function Observer(data) {
+        this.data = {};
+        this._current = this.data;
+        this.walk(data);
+    }
+    Observer.prototype.walk = function (data) {
+        let keys = Object.keys(data);
+        keys.forEach(function (key) {
+            if (typeof data[key] === 'object') {
+                this._current[key] = {};
+                this._current = this._current[key];
+                this.walk(data[key]);
+            }
+            Object.defineProperty(this._current, key, {
+                get: function () {
+                    console.log(`你访问了${key}`);
+                    return data[key];
+                },
+                set: function (value) {
+                    console.log(`你设置了${key},新的值为${value}`);
+                    data[key] = value;
+                }
+            });
+        }, this)
+    };
+
+    let app1 = new Observer({
+        a: 1,
+        b: 2,
+        c: {
+            d: 3,
+            e: 4,
+            f: {
+                g: 5,
+                h: 6,
+            },
+            j: 8,
+        },
+        i: 7
+    })
+</script>
+</body>
+</html>
