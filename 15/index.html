@@ -12,6 +12,8 @@
         let keys = Object.keys(data);
         keys.forEach(function (key) {
             Object.defineProperty(this.data,key,{
+                enumerable: true,
+                configurable: true,
                 get:function () {
                     console.log(`你访问了${key}`);
                     return data[key];
