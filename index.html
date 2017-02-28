@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>百度前端技术学院-2017-task</title>
+</head>
+<style type="text/css">
+    .wrap {
+        width: 800px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .wrap {
+        list-style-position: inside;
+        font: 26px "黑体";
+    }
+
+    .taskList {
+        padding: 0;
+    }
+
+    .taskList li {
+        margin: 5px 0 5px 0;
+    }
+
+    .taskList li a {
+        margin-left: 20px;
+    }
+
+    .taskList li span {
+        color: #f00;
+    }
+</style>
+<body>
+<div class="wrap">
+    <h1>IFE 2017 Task</h1>
+    <p>还请大家多多指教</p>
+    <ul class="taskList">
+    </ul>
+</div>
+<script>
+    var taskData = [
+        {
+            id: 15,
+            name: '动态数据绑定（一）',
+        }
+    ];
+    window.onload = function () {
+        var ulList = document.getElementsByClassName("taskList")[0],
+            ulHtml = "";
+        for (var i = 0; i < taskData.length; i++) {
+            ulHtml += "<li><span>" + taskData[i].name + "</span><a href=https://ll929.github.io/baidu-ife-2017/" + taskData[i].id + " target='_blank'>demo</a><a href='https://github.com/ll929/baidu-ife-2017/tree/gh-pages/" + taskData[i].id + "' target='_blank'>源码</a></li>"
+        }
+
+        ulList.innerHTML = ulHtml;
+    }
+</script>
+</body>
+</html>
