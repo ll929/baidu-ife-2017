@@ -7,29 +7,54 @@
 <body>
 <script>
     function Observer(data) {
-        this.data = {};
-        this._current = this.data;
-        this.walk(data);
+        this.data = data;
+        this.walk(this.data);
     }
-    Observer.prototype.walk = function (data) {
-        let keys = Object.keys(data);
+    Observer.prototype.walk = function (obj) {
+        let keys = Object.keys(obj);
         keys.forEach(function (key) {
-            if (typeof data[key] === 'object') {
-                this._current[key] = {};
-                this._current = this._current[key];
-                this.walk(data[key]);
+            if (typeof obj[key] === 'object') {
+                new Observer(obj[key]);
             }
-            Object.defineProperty(this._current, key, {
-                get: function () {
-                    console.log(`你访问了${key}`);
-                    return data[key];
-                },
-                set: function (value) {
-                    console.log(`你设置了${key},新的值为${value}`);
-                    data[key] = value;
+            let val = obj[key];
+            this.convert(key,val);
+        }, this)
+    };
+    Observer.prototype.convert = function (key,val) {
+        Object.defineProperty(this.data, key, {
+            get: function () {
+                console.log(`你访问了${key}`);
+                return val;
+            },
+            set: function (newVal) {
+                if(newVal === val) return;
+                val = newVal;
+                if(typeof val === 'object'){
+                   new Observer(val);
+                }
+            }
+        });
+    };
+
+    Observer.prototype.$watch = function (prop,callback) {
+        if (this.data.hasOwnProperty(prop)){
+            ///let descriptor = Object.getOwnPropertyDescriptor(this.data,prop);
+            ///descriptor.set = function (newVal) {
+            ///    //let oldVal = descriptor.get();
+            ///    //descriptor.set(newVal);
+            ///    //callback && typeof callback === 'function' && callback(newVal,oldVal);
+            ///}
+
+            let descriptor = Object.getOwnPropertyDescriptor(this.data,prop),
+                descriptorSet = descriptor.set;
+            Object.defineProperty(this.data,prop,{
+                set: function (newVal) {
+                    let oldVal = descriptor.get();
+                    descriptorSet(newVal);
+                    callback && typeof callback === 'function' && callback(newVal,oldVal,prop);
                 }
             });
-        }, this)
+        }
     };
 
     let app1 = new Observer({
@@ -45,6 +70,10 @@
             j: 8,
         },
         i: 7
+    });
+
+    app1.$watch('a',function (newVal,oldVal,prop) {
+       console.log(`你改变了${prop},由${oldVal}变为${newVal}。`)
     })
 </script>
 </body>
