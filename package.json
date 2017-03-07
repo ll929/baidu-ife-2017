@@ -1,0 +1,25 @@
+{
+  "name": "baidu-ife-2017",
+  "version": "1.0.0",
+  "description": "百度前端技术学院2017",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ll929/baidu-ife-2017.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ll929/baidu-ife-2017/issues"
+  },
+  "homepage": "https://github.com/ll929/baidu-ife-2017#readme",
+  "dependencies": {
+    "vue": "^2.2.1"
+  }
+}
